@@ -6,7 +6,7 @@ EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
 
 class User:
-    db = "login_registration"
+    db = "private_wall"
 
     def __init__(self, data):
         self.id = data['id']
@@ -61,10 +61,14 @@ class User:
             is_valid = False
         if len(user['first_name']) < 2:
             flash("TOO SHORT", "register")
+            is_valid = False
         if len(user['last_name']) < 2:
             flash("TOO SHORT", "register")
+            is_valid = False
         if len(user['password']) < 6:
             flash("TOO SHORT", "register")
+            is_valid = False
         if user['password'] != user['confirm']:
             flash("Does not match!", "register")
+            is_valid = False
         return is_valid

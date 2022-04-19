@@ -11,83 +11,65 @@
     </head>
 
     <body>
-        <div class="d-flex justify-content-between">
-            <form action="/register" method="post" class="col-6 mx-auto rounded p-5 bg-primary text-dark">
-                <div class="bg-dark text-danger">
-                    {% with messages = get_flashed_messages(category_filter=['register']) %}
-                    <!-- declare a variable called messages -->
-                    {% if messages %}
-                    <!-- check if there are any messages -->
-                    <h2>FLASH!!!!! AHHHHHHHH</h2>
+        <div class="d-flex justify-content-around">
+            <form action="/register" method="post" class="col-4 p-4 bg-dark text-light">
+                <h2 class="text-primary">Register</h2>
+                {% with messages = get_flashed_messages(category_filter=['register']) %}
+                {% if messages %}
+                <div class="alert alert-danger" role="alert">
+                    <strong>Flash AHHHHHHH!!!!</strong>
                     {% for message in messages %}
-                    <!-- loop through the messages -->
-                    <p>{{message}}</p> <!-- display each message in a paragraph tag -->
+                    <p>{{message}}</p>
                     {% endfor %}
-                    {% endif %}
-                    {% endwith %}
                 </div>
+                {% endif %}
+                {% endwith %}
                 <div class="form-group">
                     <label for="first_name">First Name:</label>
                     <input type="text" name="first_name" class="form-control">
                 </div>
-                <!-- <input type="submit" value="Add First Name" class="btn btn-success btn-outline-primary text-light"> -->
-
                 <div class="form-group">
                     <label for="last_name">Last Name:</label>
                     <input type="text" name="last_name" class="form-control">
                 </div>
-                <!-- <input type="submit" value="Add Last Name" class="btn btn-success btn-outline-primary text-light"> -->
-
                 <div class="form-group">
                     <label for="email">Email:</label>
                     <input type="text" name="email" class="form-control">
                 </div>
-                <!-- <input type="submit" value="Add Emails" class="btn btn-success btn-outline-primary text-light"> -->
-
                 <div class="form-group">
                     <label for="password">Password:</label>
                     <input type="password" name="password" class="form-control">
                 </div>
-                <!-- <input type="submit" value="Add Password" class="btn btn-success btn-outline-primary text-light"> -->
-
                 <div class="form-group">
                     <label for="confirm">Confirm Password:</label>
                     <input type="password" name="confirm" class="form-control">
                 </div>
-
-                <input type="submit" value="Register" class="btn btn-success btn-outline-success text-light">
-
+                <input type="submit" value="Register" class="btn btn-primary">
             </form>
-
-            <form action="/login" method="post" class="col-6 mx-auto rounded p-5 bg-primary text-dark">
-                <div class="bg-dark text-danger">
-                    {% with messages = get_flashed_messages(category_filter=['login']) %}
-                    <!-- declare a variable called messages -->
-                    {% if messages %}
-                    <!-- check if there are any messages -->
-                    <h2>FLASH!!!!! AHHHHHHHH wrong!</h2>
+            <form action="/login" method="post" class="col-4 p-4 bg-dark text-light">
+                <h2 class="text-success">Login</h2>
+                {% with messages = get_flashed_messages(category_filter=['login']) %}
+                {% if messages %}
+                <div class="alert alert-danger" role="alert">
+                    <strong>Flash AHHHHHHH!!!!</strong>
                     {% for message in messages %}
-                    <!-- loop through the messages -->
-                    <p>{{message}}</p> <!-- display each message in a paragraph tag -->
+                    <p>{{message}}</p>
                     {% endfor %}
-                    {% endif %}
-                    {% endwith %}
                 </div>
+                {% endif %}
+                {% endwith %}
                 <div class="form-group">
                     <label for="email">Email:</label>
                     <input type="text" name="email" class="form-control">
                 </div>
-                <!-- <input type="submit" value="Add Emails" class="btn btn-success btn-outline-primary text-light"> -->
-
                 <div class="form-group">
                     <label for="password">Password:</label>
                     <input type="password" name="password" class="form-control">
                 </div>
-                <input type="submit" value="Login" class="btn btn-success btn-outline-primary text-light">
+
+                <input type="submit" value="Login" class="btn btn-success">
             </form>
         </div>
-
-
     </body>
 
 </html>
