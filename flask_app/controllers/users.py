@@ -49,7 +49,10 @@ def success():
     data = {
         'id': session['user_id']
     }
-    return render_template("success.html", user=User.get_from_id(data))
+    user = User.get_from_id(data)
+    messages = Message.get_user_messages(data)
+    users = User.get_all()
+    return render_template("success.html", user=user, users=users, messages=messages)
 
 
 @app.route('/logout')

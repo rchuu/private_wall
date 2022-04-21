@@ -2,7 +2,7 @@ from flask import flash
 from flask_app.config.mysqlconnection import connectToMySQL
 
 import re
-EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
+EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+-]+@[a-zA-Z0-9._-]+.[a-zA-Z]+$')
 
 
 class User:
@@ -24,6 +24,15 @@ class User:
         return connectToMySQL(cls.db).query_db(query, data)
 
     @classmethod
+    def get_all(cls):
+        query = "SELECT * FROM users;"
+        results = connectToMySQL(cls.db).query_db(query)
+        users = []
+        for row in results:
+            users.append(cls(row))
+        return users
+
+    @classmethod
     def get_from_id(cls, data):
         query = "SELECT * FROM users WHERE id = %(id)s;"
         results = connectToMySQL(cls.db).query_db(query, data)
@@ -38,15 +47,6 @@ class User:
         if len(results) < 1:
             return False
         return cls(results[0])
-
-    @classmethod
-    def get_all(cls):
-        query = "SELECT * FROM users;"
-        results = connectToMySQL(cls.db).query_db(query)
-        users = []
-        for row in results:
-            users.append(cls(row))
-        return users
 
     @staticmethod
     def validate_register(user):

@@ -34,16 +34,7 @@ class Message:
     @classmethod
     def get_user_messages(cls, data):
         query = "SELECT users.first_name as sender, users2.first_name as receiver, messages.* FROM users LEFT JOIN messages ON users.id = messages.sender_id LEFT JOIN users as users2 ON users2.id = messages.receiver_id WHERE users2.id =  %(id)s"
-        results = connectToMySQL(cls.db_name).query_db(query, data)
-        messages = []
-        for message in results:
-            messages.append(cls(message))
-        return messages
-
-    @classmethod
-    def get_user_messages(cls, data):
-        query = "SELECT users.first_name as sender, users2.first_name as receiver, messages.* FROM users LEFT JOIN messages ON users.id = messages.sender_id LEFT JOIN users as users2 ON users2.id = messages.receiver_id WHERE users2.id =  %(id)s"
-        results = connectToMySQL(cls.db_name).query_db(query, data)
+        results = connectToMySQL(cls.db).query_db(query, data)
         messages = []
         for message in results:
             messages.append(cls(message))
@@ -52,34 +43,19 @@ class Message:
     @classmethod
     def save(cls, data):
         query = "INSERT INTO messages (content,sender_id,receiver_id) VALUES (%(content)s,%(sender_id)s,%(receiver_id)s);"
-        return connectToMySQL(cls.db_name).query_db(query, data)
-
-    @classmethod
-    def get_from_id(cls, data):
-        query = """SELECT * 
-        FROM messages as sender
-        LEFT JOIN messages
-        ON sender.id = messages.sender_id
-        LEFT JOIN users as receiver"""
-        results = connectToMySQL(cls.db).query_db(query, data)
-        if len(results) < 1:
-            return False
-        return cls(results[0])
+        return connectToMySQL(cls.db).query_db(query, data)
 
     @classmethod
     def destroy(cls, data):
         query = "DELETE FROM messages WHERE messages.id = %(id)s;"
-        return connectToMySQL(cls.db_name).query_db(query, data)
+        return connectToMySQL(cls.db).query_db(query, data)
 
-    @staticmethod
-    def validate_message(message):
-        is_valid = True
-        query = "SELECT * FROM messages WHERE message = %(message)s;"
-        results = connectToMySQL(Message.db).query_db(query, message)
-        if len(results) >= 1:
-            flash("Message taken!", "message")
-            is_valid = False
-        if len(results['message']) < 2:
-            flash("TOO SHORT", "message")
-            is_valid = False
-        return is_valid
+    # @staticmethod
+    # def validate_message(message):
+    #     is_valid = True
+    #     query = "SELECT * FROM messages WHERE content = %(content)s;"
+    #     results = connectToMySQL(Message.db).query_db(query, message)
+    #     if len(results['content']) < 2:
+    #         flash("TOO SHORT", "message")
+    #         is_valid = False
+    #     return is_valid
